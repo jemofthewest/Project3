@@ -1,6 +1,5 @@
 package UW.CS367;
 ///////////////////////////////////////////////////////////////////////////////
-//                   ALL STUDENTS COMPLETE THESE SECTIONS
 // Main Class File:  WordCloudGenerator.java
 // File:             KeyWord.java
 // Semester:         CS367 Fall 2015
@@ -9,9 +8,19 @@ package UW.CS367;
 // CS Login:         west8
 // Lecturer's Name:  Charles Fischer
 // Lab Section:      3
-//
 //////////////////////////// 80 columns wide //////////////////////////////////
 public class KeyWord implements Comparable<KeyWord>, Prioritizable {
+    private String word;
+    private int count;
+
+    public KeyWord(String word) {
+        if (word == null || word.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        this.word = word.toLowerCase();
+        count = 0;
+    }
+
     /**
      * Compares this object with the specified object for order.  Returns a
      * negative integer, zero, or a positive integer as this object is less
@@ -51,8 +60,19 @@ public class KeyWord implements Comparable<KeyWord>, Prioritizable {
      *                              from being compared to this object.
      */
     public int compareTo(KeyWord o) {
-        return 0;
+        if (o == null) {
+            throw new NullPointerException();
+        }
+        return o.getWord().compareTo(word);
     }
+
+    public boolean equals(Object other) {
+        return other != null
+                && other instanceof KeyWord
+                && ((KeyWord) other).getWord().equals(word);
+    }
+
+    public int getOccurrences() { return count; }
 
     /**
      * Return the priority for this item.
@@ -60,6 +80,10 @@ public class KeyWord implements Comparable<KeyWord>, Prioritizable {
      * @return the priority for this item.
      */
     public int getPriority() {
-        return 0;
+        return count;
     }
+
+    public String getWord() { return word; }
+
+    public void increment() { count += 1; }
 }
