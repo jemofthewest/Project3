@@ -1,5 +1,6 @@
+package UW.CS367;
 /**
- * The <tt>Prioritizable</tt> interface is implemented by classes whose 
+ * The <tt>Prioritizable</tt> interface is implemented by classes whose
  * instances are going to be inserted into a <tt>PriorityQueueADT</tt>. 
  * 
  * The <tt>getPriority</tt> method is used by the priority queue to order 
