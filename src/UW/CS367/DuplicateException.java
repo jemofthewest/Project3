@@ -1,3 +1,5 @@
+package UW.CS367;
+
 /**
  * A <tt>DuplicateException</tt> is an exception that occurs when there is 
  * an attempt to insert a duplicate key value into a <tt>Dictionary</tt>.

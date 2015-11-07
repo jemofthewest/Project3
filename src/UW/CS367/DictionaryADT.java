@@ -1,3 +1,5 @@
+package UW.CS367;
+
 import java.util.Iterator;
 
 /**

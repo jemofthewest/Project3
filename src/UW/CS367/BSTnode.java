@@ -1,3 +1,5 @@
+package UW.CS367;
+
 /**
  * <tt>BSTnode</tt> implements a node for a binary search tree (BST).  Each 
  * <tt>BSTnode</tt> keeps track of a key as well as its children.
@@ -60,7 +62,7 @@ class BSTnode<K> {
  
     /**
      * Changes the key for this node to the one given.
-     * @param newK the new key  
+     * @param newKey the new key
      */
     public void setKey(K newKey) { 
         key = newKey; 
@@ -68,7 +70,7 @@ class BSTnode<K> {
     
     /**
      * Changes the left child for this node to the one given.
-     * @param newL the new left child
+     * @param newLeft the new left child
      */
     public void setLeft(BSTnode<K> newLeft) { 
         left = newLeft; 
@@ -76,7 +78,7 @@ class BSTnode<K> {
     
     /**
      * Changes the right child for this node to the one given.
-     * @param newR the new right child
+     * @param newRight the new right child
      */
     public void setRight(BSTnode<K> newRight) { 
         right = newRight; 
