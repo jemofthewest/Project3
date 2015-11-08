@@ -1,42 +1,84 @@
-import java.util.NoSuchElementException;
+package UW.CS367;
 
 public class ArrayHeap<E extends Prioritizable> implements PriorityQueueADT<E> {
 
-    // default number of items the heap can hold before expanding
+    // default number of items the eHeap can hold before expanding
     private static final int INIT_SIZE = 100;
+    private E[] eHeap;
+    private int size;
 
     // TO DO:
     //
-    // Add a no-argument constructor that constructs a heap whose underlying
+    // Add a no-argument constructor that constructs a eHeap whose underlying
     // array has enough space to store INIT_SIZE items before needing to 
     // expand.
     //
     // Add a 1-argument constructor that takes an integer parameter and 
-    // constructs a heap whose underlying array has enough space to store the 
+    // constructs a eHeap whose underlying array has enough space to store the
     // number of items given in the parameter before needing to expand.  If
-    // the parameter value is less 0, an IllegalArgumentException is thrown.
+    // the parameter value is less 0, an uIllegalArgumentException is thrown.
     //
     // Add your code to implement the PriorityQueue ADT operations using a
-    // heap whose underlying data structure is an array.
+    // eHeap whose underlying data structure is an array.
 
+
+    public ArrayHeap() {
+        eHeap = (E[])(new Prioritizable[INIT_SIZE]);
+    }
+
+    public ArrayHeap(int initSize) {
+        eHeap = (E[])(new Prioritizable[initSize]);
+    }
 
     public boolean isEmpty() {
-        return false;  // replace this stub with your code
+        return size() == 0;  // replace this stub with your code
     }
 
     public void insert(E item) {
-        // add your code
+        eHeap[++size] = item;
+        swapUp(size);
+    }
+
+    private void swapUp(int loc) {
+        if (loc == 1) {
+            return;
+        }
+
+        if (eHeap[loc].getPriority() > eHeap[loc/2].getPriority()) {
+            E tmp = eHeap[loc];
+            eHeap[loc] = eHeap[loc/2];
+            eHeap[loc/2] = tmp;
+            swapUp(loc/2);
+        }
     }
 
     public E removeMax() {
-        return null;  // replace this stub with your code
+        E maxVal = eHeap[1];
+        eHeap[1] = eHeap[size--];
+        swapDown(1);
+        return maxVal;  // replace this stub with your code
     }
 
-    public E getMax() {
-        return null;  // replace this stub with your code
+    private void swapDown(int loc) {
+        if (loc>size) {
+            return;
+        }
+
+        E tmp;
+        if (eHeap[loc].getPriority() < eHeap[loc*2].getPriority()) {
+            tmp = eHeap[loc];
+            eHeap[loc] = eHeap[loc*2];
+            eHeap[loc*2] = tmp;
+            swapDown(loc*2);
+        } else if (eHeap[loc].getPriority() < eHeap[loc*2+1].getPriority()) {
+            tmp = eHeap[loc];
+            eHeap[loc] = eHeap[loc*2+1];
+            eHeap[loc*2+1] = tmp;
+            swapDown(loc*2+1);
+        }
     }
 
-    public int size() {
-        return 0;  // replace this stub with your code
-    }
+    public E getMax() { return eHeap[1]; }
+
+    public int size() { return size; }
 }
