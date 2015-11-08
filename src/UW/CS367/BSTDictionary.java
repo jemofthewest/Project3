@@ -30,7 +30,7 @@ public class BSTDictionary<K extends Comparable<K>> implements DictionaryADT<K> 
     
     public int totalPathLength() { return 0; }
     
-    public Iterator<K> iterator() { return null; }
+    public Iterator<K> iterator() { return new BSTDictionaryIterator<>(root); }
 
     private BSTnode<K> insert(BSTnode<K> n, K key) throws DuplicateException {
        if (n == null) {
