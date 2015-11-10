@@ -24,14 +24,16 @@ public class ArrayHeap<E extends Prioritizable> implements PriorityQueueADT<E> {
 
     public ArrayHeap() {
         eHeap = (E[])(new Prioritizable[INIT_SIZE]);
+        size = 0;
     }
 
     public ArrayHeap(int initSize) {
         eHeap = (E[])(new Prioritizable[initSize]);
+        size = 0;
     }
 
     public boolean isEmpty() {
-        return size() == 0;  // replace this stub with your code
+        return size() == 0;
     }
 
     public void insert(E item) {
@@ -60,25 +62,42 @@ public class ArrayHeap<E extends Prioritizable> implements PriorityQueueADT<E> {
     }
 
     private void swapDown(int loc) {
-        if (loc>size) {
+        if (loc*2+1> size) { // We're as far down as we can go
             return;
         }
 
         E tmp;
-        if (eHeap[loc].getPriority() < eHeap[loc*2].getPriority()) {
+        int tmpLoc;
+        if (eHeap[loc*2].getPriority() > eHeap[loc*2+1].getPriority()) {
+            tmpLoc = loc*2;
+        } else {
+            tmpLoc = loc*2+1;
+        }
+        if (eHeap[loc].getPriority() < eHeap[tmpLoc].getPriority()) {
             tmp = eHeap[loc];
-            eHeap[loc] = eHeap[loc*2];
-            eHeap[loc*2] = tmp;
-            swapDown(loc*2);
-        } else if (eHeap[loc].getPriority() < eHeap[loc*2+1].getPriority()) {
-            tmp = eHeap[loc];
-            eHeap[loc] = eHeap[loc*2+1];
-            eHeap[loc*2+1] = tmp;
-            swapDown(loc*2+1);
+            eHeap[loc] = eHeap[tmpLoc];
+            eHeap[tmpLoc] = tmp;
+            swapDown(tmpLoc);
         }
     }
 
     public E getMax() { return eHeap[1]; }
 
     public int size() { return size; }
+
+    @Override
+    public String toString() {
+        E[] copy = (E[])(new Prioritizable[eHeap.length]);
+        System.arraycopy(eHeap,0,copy,0,eHeap.length);
+        int tmpSize = size;
+        String retString = "";
+        E tmp;
+        while (size >0) {
+            tmp = removeMax();
+            retString+=tmp.toString() + ",";
+        }
+        eHeap = copy;
+        size = tmpSize;
+        return retString;
+    }
 }

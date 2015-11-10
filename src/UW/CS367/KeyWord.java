@@ -25,7 +25,7 @@ public class KeyWord implements Comparable<KeyWord>, Prioritizable {
         if (o == null) {
             throw new NullPointerException();
         }
-        return o.getWord().compareTo(word);
+        return word.compareTo(o.getWord());
     }
 
     public boolean equals(Object other) {
@@ -46,4 +46,9 @@ public class KeyWord implements Comparable<KeyWord>, Prioritizable {
     public String getWord() { return word; }
 
     public void increment() { count += 1; }
+
+    @Override
+    public String toString() {
+        return word + "(" + count + ")";
+    }
 }

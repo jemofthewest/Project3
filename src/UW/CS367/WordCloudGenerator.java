@@ -1,6 +1,5 @@
 package UW.CS367;
 
-import java.security.Key;
 import java.util.*;
 import java.io.*;
 
@@ -82,7 +81,7 @@ public class WordCloudGenerator {
             List<String> words = parseLine(line);
 
             for (String word : words) {
-                if (ignore.lookup(word) == null) { // Only if not in ignore
+                if (ignore.lookup(word.toLowerCase()) == null) { // Only if not in ignore
                     KeyWord newWord = new KeyWord(word);
                     try {
                         dictionary.insert(newWord);
@@ -119,8 +118,10 @@ public class WordCloudGenerator {
         }
 
         DictionaryADT<KeyWord> topWords = new BSTDictionary<>();
-        for (int i = 0; i < maxWords && i < keyWordPriorityQueue.size(); i++) {
+        int wordCount = 0;
+        while (wordCount < maxWords && !keyWordPriorityQueue.isEmpty()) {
             KeyWord tmp = keyWordPriorityQueue.removeMax();
+            wordCount++;
             try {
                 topWords.insert(tmp);
             } catch (DuplicateException e) {

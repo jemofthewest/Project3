@@ -123,4 +123,14 @@ public class BSTDictionary<K extends Comparable<K>> implements DictionaryADT<K> 
                     + totalPathLength(N.getRight(), D+1);
         }
     }
+
+    @Override
+    public String toString() {
+        Iterator<K> itr = iterator();
+        String returnString = "";
+        while (itr.hasNext()) {
+            returnString += itr.next().toString() + ",";
+        }
+        return returnString;
+    }
 }
