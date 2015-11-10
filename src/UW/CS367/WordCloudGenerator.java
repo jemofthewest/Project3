@@ -1,3 +1,6 @@
+package UW.CS367;
+
+import java.security.Key;
 import java.util.*;
 import java.io.*;
 
@@ -21,13 +24,43 @@ public class WordCloudGenerator {
         Scanner in = null;         // for input from text file
         PrintStream out = null;    // for output to html file
         Scanner inIgnore = null;   // for input from ignore file
-        DictionaryADT<KeyWord> dictionary = new BSTDictionary<KeyWord>();  
+        DictionaryADT<KeyWord> dictionary = new BSTDictionary<KeyWord>();
 
         // Check the command-line arguments and set up the input and output
-        
-        /////////////////////
-        // ADD YOUR CODE HERE
-        ///////////////////// 
+
+        if (args.length != 4) {
+            System.out.println("Four arguments required: " +
+                    "inputFileName outputFileName ignoreFileName maxWords");
+            return;
+        }
+
+        File inFile = new File(args[0]);
+        try {
+           in = new Scanner(inFile);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: cannot access file " + args[0]);
+        }
+        File ignoreFile = new File(args[2]);
+        try {
+            inIgnore = new Scanner(ignoreFile);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: cannot access file " + args[2]);
+        }
+
+        int maxWords;
+        // Check if maxWords is a postive integer
+        try {
+            maxWords = Integer.parseInt(args[3]);
+            if (maxWords <= 0) {
+                System.out.println("Error: maxWords must be a positive integer");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Error: maxWords must be a positive integer");
+            return;
+        }
+
+
 
         // Create the dictionary of words to ignore
         // You do not need to change this code.
@@ -48,12 +81,15 @@ public class WordCloudGenerator {
             String line = in.nextLine();
             List<String> words = parseLine(line);
 
-            ////////////////////////////////////////
-            // REPLACE THE CODE BELOW WITH YOUR CODE
-            for (String word : words)
-                out.print(word + " | ");
-            out.println();
-            ////////////////////////////////////////
+            for (String word : words) {
+                if (ignore.lookup(word) == null) { // Only if not in ignore
+                    try {
+                        dictionary.insert(new KeyWord(word));
+                    } catch (DuplicateException e) {
+                        //ignore duplicates
+                    }
+                }
+            }
 
         } // end while
 
@@ -69,7 +105,36 @@ public class WordCloudGenerator {
         //   the appropriate length
         // - Generate the html output file
         ////////////////////////////////////////////////////////////
-        
+        System.out.println("# keys: " + dictionary.size());
+        System.out.println("avg path length: "
+                + dictionary.totalPathLength()/dictionary.size());
+        System.out.println("linear avg path: " + (1 + dictionary.size())/2);
+
+        ArrayHeap<KeyWord> keyWordPriorityQueue
+                = new ArrayHeap<>(dictionary.size()+1);
+
+        KeyWord tmpWord;
+
+        for (KeyWord word : dictionary) {
+            keyWordPriorityQueue.insert(word);
+        }
+
+        DictionaryADT<KeyWord> topWords = new BSTDictionary<>();
+        for (int i = 0; i < maxWords && i < keyWordPriorityQueue.size(); i++) {
+            try {
+                topWords.insert(keyWordPriorityQueue.removeMax());
+            } catch (DuplicateException e) {
+                // ignore duplicates (though there shouldn't be any)
+            }
+        }
+
+        try {
+            out = new PrintStream(args[1]);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: Cannot access file " + args[1]);
+        }
+
+        generateHtml(topWords, out);
 
         // Close everything
         if (in != null) 
