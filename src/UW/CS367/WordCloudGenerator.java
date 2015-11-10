@@ -83,10 +83,11 @@ public class WordCloudGenerator {
 
             for (String word : words) {
                 if (ignore.lookup(word) == null) { // Only if not in ignore
+                    KeyWord newWord = new KeyWord(word);
                     try {
-                        dictionary.insert(new KeyWord(word));
+                        dictionary.insert(newWord);
                     } catch (DuplicateException e) {
-                        //ignore duplicates
+                        dictionary.lookup(newWord).increment();
                     }
                 }
             }
@@ -113,18 +114,17 @@ public class WordCloudGenerator {
         ArrayHeap<KeyWord> keyWordPriorityQueue
                 = new ArrayHeap<>(dictionary.size()+1);
 
-        KeyWord tmpWord;
-
         for (KeyWord word : dictionary) {
             keyWordPriorityQueue.insert(word);
         }
 
         DictionaryADT<KeyWord> topWords = new BSTDictionary<>();
         for (int i = 0; i < maxWords && i < keyWordPriorityQueue.size(); i++) {
+            KeyWord tmp = keyWordPriorityQueue.removeMax();
             try {
-                topWords.insert(keyWordPriorityQueue.removeMax());
+                topWords.insert(tmp);
             } catch (DuplicateException e) {
-                // ignore duplicates (though there shouldn't be any)
+                // ignore duplicates
             }
         }
 

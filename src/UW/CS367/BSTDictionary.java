@@ -12,6 +12,9 @@ public class BSTDictionary<K extends Comparable<K>> implements DictionaryADT<K> 
     }
 
     public void insert(K key) throws DuplicateException {
+        if (lookup(key) != null) {
+            throw new DuplicateException();
+        }
         root = insert(root, key);
         numItems++;
     }
@@ -22,11 +25,7 @@ public class BSTDictionary<K extends Comparable<K>> implements DictionaryADT<K> 
     }
 
     public K lookup(K key) {
-        if (lookup(root, key)) {
-            return key;
-        } else {
-            return null;
-        }
+        return lookup(root,key);
     }
 
     public boolean isEmpty() { return numItems==0; }
@@ -97,13 +96,13 @@ public class BSTDictionary<K extends Comparable<K>> implements DictionaryADT<K> 
         }
     }
 
-    private boolean lookup(BSTnode<K> n, K key) {
+    private K lookup(BSTnode<K> n, K key) {
         if (n == null) {
-            return false;
+            return null;
         }
 
         if (n.getKey().equals(key)) {
-            return true;
+            return n.getKey();
         }
 
         if (key.compareTo(n.getKey()) < 0) {

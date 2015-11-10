@@ -18,7 +18,7 @@ public class KeyWord implements Comparable<KeyWord>, Prioritizable {
             throw new IllegalArgumentException();
         }
         this.word = word.toLowerCase();
-        count = 0;
+        count = 1;
     }
 
     public int compareTo(KeyWord o) {
