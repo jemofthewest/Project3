@@ -25,6 +25,7 @@ public class BSTDictionaryIterator<K> implements Iterator<K> {
 
 
     public BSTDictionaryIterator(BSTnode<K> root) {
+        bstNodes = new Stack<>();
         bstNodes.push(root);
         pushSmallValues(root);
     }
