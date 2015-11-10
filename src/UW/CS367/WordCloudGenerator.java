@@ -1,8 +1,30 @@
 package UW.CS367;
+///////////////////////////////////////////////////////////////////////////////
+//                   ALL STUDENTS COMPLETE THESE SECTIONS
+// Title:            WordCloudGenerator
+// Files:            KeyWord.java
+//                   BSTDictionary.java
+//                   BSTDictionaryIterator.java
+//                   ArrayHeap.java
+//                   WordCloudGenerator.java
+// Semester:         CS367 Fall 2015
+//
+// Author:           Jeremy West
+// Email:            west8@wisc.edu
+// CS Login:         west8
+// Lecturer's Name:  Charles Fischer
+// Lab Section:      3
+//
+//////////////////////////// 80 columns wide //////////////////////////////////
 
 import java.util.*;
 import java.io.*;
 
+/**
+ * Main class that generates a word cloud based on input text files.
+ *
+ * @author Jeremy West
+ */
 public class WordCloudGenerator {
     /**
      * The main method generates a word cloud as described in the program 
@@ -93,23 +115,12 @@ public class WordCloudGenerator {
 
         } // end while
 
-        
-        ////////////////////////////////////////////////////////////
-        // ADD YOUR CODE HERE TO
-        // - Print out the information about the dictionary:
-        //     - # of keys
-        //     - average path length
-        //     - linear average path length
-        // - Put the dictionary into a priority queue
-        // - Use the priority queue to create a list of KeyWords of 
-        //   the appropriate length
-        // - Generate the html output file
-        ////////////////////////////////////////////////////////////
         System.out.println("# keys: " + dictionary.size());
         System.out.println("avg path length: "
                 + dictionary.totalPathLength()/dictionary.size());
         System.out.println("linear avg path: " + (1 + dictionary.size())/2);
 
+        // Priority queue to temporarily store the words to get the highest
         ArrayHeap<KeyWord> keyWordPriorityQueue
                 = new ArrayHeap<>(dictionary.size()+1);
 
@@ -117,6 +128,7 @@ public class WordCloudGenerator {
             keyWordPriorityQueue.insert(word);
         }
 
+        // A dictionary of the most frequent occurring words
         DictionaryADT<KeyWord> topWords = new BSTDictionary<>();
         int wordCount = 0;
         while (wordCount < maxWords && !keyWordPriorityQueue.isEmpty()) {

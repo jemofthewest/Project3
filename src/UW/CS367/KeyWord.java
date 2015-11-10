@@ -9,9 +9,14 @@ package UW.CS367;
 // Lecturer's Name:  Charles Fischer
 // Lab Section:      3
 //////////////////////////// 80 columns wide //////////////////////////////////
+/**
+ * Class to contain a word and keep track of the number of occurrences.
+ *
+ * @author Jeremy West
+ */
 public class KeyWord implements Comparable<KeyWord>, Prioritizable {
-    private String word;
-    private int count;
+    private String word; // the stored word in lower case
+    private int count; // the number of occurrences for the word
 
     public KeyWord(String word) {
         if (word == null || word.isEmpty()) {
@@ -21,6 +26,12 @@ public class KeyWord implements Comparable<KeyWord>, Prioritizable {
         count = 1;
     }
 
+    /**
+     * Compares the given KeyWord's word with word
+     *
+     * @param (o) Object to compare
+     * @return The string compareTo of this and the given KeyWord
+     */
     public int compareTo(KeyWord o) {
         if (o == null) {
             throw new NullPointerException();
@@ -28,12 +39,24 @@ public class KeyWord implements Comparable<KeyWord>, Prioritizable {
         return word.compareTo(o.getWord());
     }
 
+    /**
+     * Compares an unknown object with this KeyWord's word
+     *
+     * @param (other) Object to compare with
+     * @return True if the object is not null, is an instance of KeyWord, and
+     * it's word is equal to this word
+     */
     public boolean equals(Object other) {
         return other != null
                 && other instanceof KeyWord
                 && ((KeyWord) other).getWord().equals(word);
     }
 
+    /**
+     * Returns the number of this word's occurrences
+     *
+     * @return The number of this word's occurrences
+     */
     public int getOccurrences() { return count; }
 
     /**
@@ -43,10 +66,23 @@ public class KeyWord implements Comparable<KeyWord>, Prioritizable {
      */
     public int getPriority() { return getOccurrences(); }
 
+    /**
+     * Returns this word
+     *
+     * @return This word
+     */
     public String getWord() { return word; }
 
+    /**
+     * Increments the number of occurrences
+     */
     public void increment() { count += 1; }
 
+    /**
+     * Custom toString method
+     *
+     * @return The word and count
+     */
     @Override
     public String toString() {
         return word + "(" + count + ")";

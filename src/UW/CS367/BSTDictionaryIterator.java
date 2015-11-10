@@ -1,4 +1,14 @@
 package UW.CS367;
+///////////////////////////////////////////////////////////////////////////////
+// Main Class File:  WordCloudGenerator.java
+// File:             BSTDictionaryIterator.java
+// Semester:         CS367 Fall 2015
+//
+// Author:           Jeremy West
+// CS Login:         west8
+// Lecturer's Name:  Charles Fischer
+// Lab Section:      3
+//////////////////////////// 80 columns wide //////////////////////////////////
 
 import java.util.*;
 
@@ -6,32 +16,32 @@ import java.util.*;
  * BSTDictionaryIterator implements an iterator for a binary search tree (BST)
  * implementation of a Dictionary.  The iterator iterates over the tree in 
  * order of the key values (from smallest to largest).
+ *
+ * @author Jeremy West
  */
 public class BSTDictionaryIterator<K> implements Iterator<K> {
-    private Stack<BSTnode<K>> bstNodes;
+    private Stack<BSTnode<K>> bstNodes; // The stack of nodes still to visit
 
-    // TO DO:
-    //
-    // Add your code to implement the BSTDictionaryIterator.  To receive full
-    // credit:
-    // - You must not use recursion in any of methods or constructor.
-    // - The constructor must have a worst-case complexity of O(height of BST).
-    // 
-    // Hint: use a Stack and push/pop nodes as you iterate through the BST.
-    // The constructor should push all the nodes needed so the *first* call 
-    // to next() returns the value in the node with the smallest key.
-    // (You can use the Java API Stack or implement your own Stack - if you
-    // implement your own, make sure to hand it in.)
-
-
+    /**
+     * Recursively creates a stack of the smallest values
+     * @param root the node to start with
+     */
     public BSTDictionaryIterator(BSTnode<K> root) {
         bstNodes = new Stack<>();
         bstNodes.push(root);
         pushSmallValues(root);
     }
 
+    /**
+     * If there is another node to visit, which is if the stack is not empty
+     * @return true if there is another node to visit
+     */
     public boolean hasNext() { return !bstNodes.isEmpty(); }
 
+    /**
+     * Returns the next node in-order
+     * @return the next in-order node
+     */
     public K next() {
         BSTnode<K> tmpNode = bstNodes.pop(); // pop off the smallest value
         K curData = tmpNode.getKey();
@@ -43,10 +53,14 @@ public class BSTDictionaryIterator<K> implements Iterator<K> {
         return curData;  // replace this stub with your code
     }
 
-    private void pushSmallValues(BSTnode<K> tmpNode) {
-        while (tmpNode.getLeft() != null) {
-            tmpNode = tmpNode.getLeft();
-            bstNodes.push(tmpNode);
+    /**
+     * Pushes all of the left children onto the stack
+     * @param N node to start with
+     */
+    private void pushSmallValues(BSTnode<K> N) {
+        while (N.getLeft() != null) {
+            N = N.getLeft();
+            bstNodes.push(N);
         }
     }
 
