@@ -8,13 +8,18 @@ public class BSTDictionary<K extends Comparable<K>> implements DictionaryADT<K> 
 
     public BSTDictionary() {
         this.root = null;
+        numItems = 0;
     }
 
     public void insert(K key) throws DuplicateException {
         root = insert(root, key);
+        numItems++;
     }
 
-    public boolean delete(K key) { return delete(root, key) != null; }
+    public boolean delete(K key) {
+        numItems--;
+        return delete(root, key) != null;
+    }
 
     public K lookup(K key) {
         if (lookup(root, key)) {
@@ -28,7 +33,9 @@ public class BSTDictionary<K extends Comparable<K>> implements DictionaryADT<K> 
 
     public int size() { return numItems; }
     
-    public int totalPathLength() { return 0; }
+    public int totalPathLength() {
+        return totalPathLength(root, 1);
+    }
     
     public Iterator<K> iterator() { return new BSTDictionaryIterator<>(root); }
 
@@ -106,4 +113,15 @@ public class BSTDictionary<K extends Comparable<K>> implements DictionaryADT<K> 
         }
     }
 
+    private int totalPathLength(BSTnode<K> N, int D) {
+        if (N == null) {
+            return 0;
+        } else if (N.getLeft() == null && N.getRight() == null) {
+            return D;
+        } else {
+            return D
+                    + totalPathLength(N.getLeft(), D+1)
+                    + totalPathLength(N.getRight(), D+1);
+        }
+    }
 }
